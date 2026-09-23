@@ -1,0 +1,8 @@
+# Set javac settings from JDT prefs
+
+Bundle-Activator			= ${p}.Activator
+Bundle-Description			= Serial Device Service for a Reference Implementation.
+
+-privatepackage 			= ${p}.*
+
+p: org.osgi.impl.service.serial
