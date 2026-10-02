@@ -1,0 +1,8 @@
+org/osgi/impl/service/serial/SerialDeviceImpl.class
+org/osgi/impl/service/serial/TestStepImpl.class
+org/osgi/impl/service/serial/SerialEventManager$SerialCustomizer.class
+org/osgi/impl/service/serial/SerialEventManager.class
+org/osgi/impl/service/serial/SerialDeviceManager.class
+org/osgi/impl/service/serial/Activator.class
+org/osgi/impl/service/serial/Commands.class
+org/osgi/impl/service/serial/SerialEventImpl.class

@@ -1,0 +1,5 @@
+org/osgi/test/cases/serial/util/SerialTestProxy.class
+org/osgi/test/cases/serial/util/TestServiceListener.class
+org/osgi/test/cases/serial/junit/SerialDeviceTestCase.class
+org/osgi/test/cases/serial/junit/SignatureTestCase.class
+org/osgi/test/cases/serial/util/TestSerialEventListener.class

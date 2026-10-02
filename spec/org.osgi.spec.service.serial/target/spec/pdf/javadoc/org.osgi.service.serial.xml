@@ -1,0 +1,750 @@
+<section xmlns="http://docbook.org/ns/docbook"
+         xreflabel="org.osgi.service.serial"
+         version="5"
+         role="package"
+         xml:id="org.osgi.service.serial">
+   <title>org.osgi.service.serial</title>
+   <info>
+      <releaseinfo xml:id="org.osgi.service.serial-version">Version 1.0</releaseinfo>
+      <edition xml:id="org.osgi.service.serial-version.number">1.0</edition>
+   </info>
+   <para>
+Serial Device Service Specification Package Version 1.0.
+
+ </para>
+   <para>
+ Bundles wishing to use this package must list the package in the
+ Import-Package header of the bundle's manifest. This package has two types of
+ users: the consumers that use the API in this package and the providers that
+ implement the API in this package.
+
+ </para>
+   <para>
+ Example import for consumers using the API in this package:
+ </para>
+   <para>
+ {@code  Import-Package: org.osgi.service.serial; version="[1.0,2.0)"}</para>
+   <section role="summary">
+      <title>Summary</title>
+      <itemizedlist>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.serial.SerialConstants">
+                  <code>SerialConstants</code>
+               </link> - 
+Constants for serial device settings.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.serial.SerialDevice">
+                  <code>SerialDevice</code>
+               </link> - 
+SerialDevice is a service representing a device performing serial
+ communication.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.serial.SerialDeviceException">
+                  <code>SerialDeviceException</code>
+               </link> - 
+A exception used to indicate that a serial device communication problem
+ occurred.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.serial.SerialEvent">
+                  <code>SerialEvent</code>
+               </link> - 
+A serial device event.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.serial.SerialEventListener">
+                  <code>SerialEventListener</code>
+               </link> - 
+Serial events are sent using the white board model, in which a bundle
+ interested in receiving the Serial events registers an object implementing
+ the SerialEventListener interface.
+   </para>
+         </listitem>
+         <listitem>
+            <para>
+               <link linkend="org.osgi.service.serial.SerialPortConfiguration">
+                  <code>SerialPortConfiguration</code>
+               </link> - 
+An object represents the Serial port configuration.
+   </para>
+         </listitem>
+      </itemizedlist>
+   </section>
+   <section xreflabel="SerialConstants"
+            role="class"
+            xml:id="org.osgi.service.serial.SerialConstants">
+      <title>public final class SerialConstants</title>
+      <para>
+Constants for serial device settings.
+   </para>
+      <section xreflabel="BAUD_115200"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.BAUD_115200">
+         <title>public static final int BAUD_115200 = 115200</title>
+         <para>
+Baud rate: 115200.
+   </para>
+      </section>
+      <section xreflabel="BAUD_14400"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.BAUD_14400">
+         <title>public static final int BAUD_14400 = 14400</title>
+         <para>
+Baud rate: 14400.
+   </para>
+      </section>
+      <section xreflabel="BAUD_19200"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.BAUD_19200">
+         <title>public static final int BAUD_19200 = 19200</title>
+         <para>
+Baud rate: 19200.
+   </para>
+      </section>
+      <section xreflabel="BAUD_38400"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.BAUD_38400">
+         <title>public static final int BAUD_38400 = 38400</title>
+         <para>
+Baud rate: 38400.
+   </para>
+      </section>
+      <section xreflabel="BAUD_57600"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.BAUD_57600">
+         <title>public static final int BAUD_57600 = 57600</title>
+         <para>
+Baud rate: 57600.
+   </para>
+      </section>
+      <section xreflabel="BAUD_9600"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.BAUD_9600">
+         <title>public static final int BAUD_9600 = 9600</title>
+         <para>
+Baud rate: 9600.
+   </para>
+      </section>
+      <section xreflabel="BAUD_AUTO"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.BAUD_AUTO">
+         <title>public static final int BAUD_AUTO = -1</title>
+         <para>
+Baud rate: Automatic baud rate (if available).
+   </para>
+      </section>
+      <section xreflabel="DATABITS_5"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.DATABITS_5">
+         <title>public static final int DATABITS_5 = 5</title>
+         <para>
+Data bits: 5.
+   </para>
+      </section>
+      <section xreflabel="DATABITS_6"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.DATABITS_6">
+         <title>public static final int DATABITS_6 = 6</title>
+         <para>
+Data bits: 6.
+   </para>
+      </section>
+      <section xreflabel="DATABITS_7"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.DATABITS_7">
+         <title>public static final int DATABITS_7 = 7</title>
+         <para>
+Data bits: 7.
+   </para>
+      </section>
+      <section xreflabel="DATABITS_8"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.DATABITS_8">
+         <title>public static final int DATABITS_8 = 8</title>
+         <para>
+Data bits: 8.
+   </para>
+      </section>
+      <section xreflabel="FLOWCONTROL_NONE"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.FLOWCONTROL_NONE">
+         <title>public static final int FLOWCONTROL_NONE = 0</title>
+         <para>
+Flow control: None.
+   </para>
+      </section>
+      <section xreflabel="FLOWCONTROL_RTSCTS_IN"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.FLOWCONTROL_RTSCTS_IN">
+         <title>public static final int FLOWCONTROL_RTSCTS_IN = 1</title>
+         <para>
+Flow control: RTS/CTS on input.
+   </para>
+      </section>
+      <section xreflabel="FLOWCONTROL_RTSCTS_OUT"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.FLOWCONTROL_RTSCTS_OUT">
+         <title>public static final int FLOWCONTROL_RTSCTS_OUT = 2</title>
+         <para>
+Flow control: RTS/CTS on output.
+   </para>
+      </section>
+      <section xreflabel="FLOWCONTROL_XONXOFF_IN"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.FLOWCONTROL_XONXOFF_IN">
+         <title>public static final int FLOWCONTROL_XONXOFF_IN = 4</title>
+         <para>
+Flow control: XON/XOFF on input.
+   </para>
+      </section>
+      <section xreflabel="FLOWCONTROL_XONXOFF_OUT"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.FLOWCONTROL_XONXOFF_OUT">
+         <title>public static final int FLOWCONTROL_XONXOFF_OUT = 8</title>
+         <para>
+Flow control: XON/XOFF on output.
+   </para>
+      </section>
+      <section xreflabel="PARITY_EVEN"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.PARITY_EVEN">
+         <title>public static final int PARITY_EVEN = 2</title>
+         <para>
+Parity: Even.
+   </para>
+      </section>
+      <section xreflabel="PARITY_MARK"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.PARITY_MARK">
+         <title>public static final int PARITY_MARK = 3</title>
+         <para>
+Parity: Mark.
+   </para>
+      </section>
+      <section xreflabel="PARITY_NONE"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.PARITY_NONE">
+         <title>public static final int PARITY_NONE = 0</title>
+         <para>
+Parity: None.
+   </para>
+      </section>
+      <section xreflabel="PARITY_ODD"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.PARITY_ODD">
+         <title>public static final int PARITY_ODD = 1</title>
+         <para>
+Parity: Odd.
+   </para>
+      </section>
+      <section xreflabel="PARITY_SPACE"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.PARITY_SPACE">
+         <title>public static final int PARITY_SPACE = 4</title>
+         <para>
+Parity: Space.
+   </para>
+      </section>
+      <section xreflabel="STOPBITS_1"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.STOPBITS_1">
+         <title>public static final int STOPBITS_1 = 1</title>
+         <para>
+Stop bits: 1.
+   </para>
+      </section>
+      <section xreflabel="STOPBITS_1_5"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.STOPBITS_1_5">
+         <title>public static final int STOPBITS_1_5 = 3</title>
+         <para>
+Stop bits: 1.5.
+   </para>
+      </section>
+      <section xreflabel="STOPBITS_2"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialConstants.STOPBITS_2">
+         <title>public static final int STOPBITS_2 = 2</title>
+         <para>
+Stop bits: 2.
+   </para>
+      </section>
+   </section>
+   <section xreflabel="SerialDevice"
+            role="class"
+            xml:id="org.osgi.service.serial.SerialDevice">
+      <title>public abstract SerialDevice</title>
+      <para>
+SerialDevice is a service representing a device performing serial
+ communication.
+   </para>
+      <formalpara role="parameter">
+         <title>Concurrency</title>
+         <para>Thread-safe </para>
+      </formalpara>
+      <section xreflabel="DEVICE_CATEGORY"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialDevice.DEVICE_CATEGORY">
+         <title>public static final String DEVICE_CATEGORY = "Serial"</title>
+         <para>
+Constant for the value of the service property {@code DEVICE_CATEGORY}
+ used for all Serial devices.
+ 
+ </para>
+         <para>
+ A Serial base driver bundle must set this property key.</para>
+         <formalpara role="parameter">
+            <title>See Also</title>
+            <para>
+               <link linkend="UNRESOLVED">org.osgi.service.device.Constants.DEVICE_CATEGORY</link>
+            </para>
+         </formalpara>
+      </section>
+      <section xreflabel="SERIAL_COMPORT"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialDevice.SERIAL_COMPORT">
+         <title>public static final String SERIAL_COMPORT = "serial.comport"</title>
+         <para>
+Service property for the serial comport.
+ </para>
+         <para>
+ Represents the name of the port. The value type is String.
+ </para>
+         <para>
+ For example, "/dev/ttyUSB0", "COM5", or "/dev/tty.usbserial-XXXXXX".</para>
+      </section>
+      <section xreflabel="getConfiguration()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.getConfiguration--">
+         <title>public abstract SerialPortConfiguration getConfiguration()</title>
+         <para role="description">
+Gets the Serial port configuration.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The SerialPortConfiguration object containing the configuration.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getInputStream()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.getInputStream--">
+         <title>public abstract InputStream getInputStream() throws IOException</title>
+         <para role="description">
+Returns an input stream.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>An input stream.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IOException</code>– if an I/O error occurred.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getOutputStream()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.getOutputStream--">
+         <title>public abstract OutputStream getOutputStream() throws IOException</title>
+         <para role="description">
+Returns an output stream.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>An output stream.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>IOException</code>– If an I/O error occurred.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="isCTS()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.isCTS--">
+         <title>public abstract boolean isCTS()</title>
+         <para role="description">
+Returns the CTS state.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The CTS state.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="isDSR()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.isDSR--">
+         <title>public abstract boolean isDSR()</title>
+         <para role="description">
+Returns the DSR state.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The DSR state.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="isDTR()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.isDTR--">
+         <title>public abstract boolean isDTR()</title>
+         <para role="description">
+Returns the DTR state.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The DTR state.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="isRTS()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.isRTS--">
+         <title>public abstract boolean isRTS()</title>
+         <para role="description">
+Returns the DTS state.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The DTS state.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="setConfiguration(SerialPortConfiguration)"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.setConfiguration-SerialPortConfiguration-">
+         <title>public abstract void setConfiguration(SerialPortConfiguration configuration) throws SerialDeviceException</title>
+         <formalpara role="parameter">
+            <title>configuration</title>
+            <para>The SerialPortConfiguration object containing the
+        configuration.</para>
+         </formalpara>
+         <para role="description">
+Sets the Serial port configuration.
+   </para>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>SerialDeviceException</code>– If the parameter is specified incorrectly
+         or the parameter is not supported.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="setDTR(boolean)"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.setDTR-boolean-">
+         <title>public abstract void setDTR(boolean dtr) throws SerialDeviceException</title>
+         <formalpara role="parameter">
+            <title>dtr</title>
+            <para>{@code true} for DTR on; {@code false} for DTR for off.</para>
+         </formalpara>
+         <para role="description">
+Sets the DTR state.
+   </para>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>SerialDeviceException</code>– If the parameter is not supported.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="setRTS(boolean)"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDevice.setRTS-boolean-">
+         <title>public abstract void setRTS(boolean rts) throws SerialDeviceException</title>
+         <formalpara role="parameter">
+            <title>rts</title>
+            <para>{@code true} for RTS on; {@code false} for RTS for off.</para>
+         </formalpara>
+         <para role="description">
+Sets the RTS state.
+   </para>
+         <formalpara role="parameter">
+            <title>Throws</title>
+            <para>
+               <code>SerialDeviceException</code>– If the parameter is not supported.</para>
+         </formalpara>
+      </section>
+   </section>
+   <section xreflabel="SerialDeviceException"
+            role="class"
+            xml:id="org.osgi.service.serial.SerialDeviceException">
+      <title>public class SerialDeviceException<?line-break?> extends Exception</title>
+      <para>
+A exception used to indicate that a serial device communication problem
+ occurred.
+   </para>
+      <section xreflabel="PORT_IN_USE"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialDeviceException.PORT_IN_USE">
+         <title>public static final int PORT_IN_USE = 1</title>
+         <para>
+The port in use.
+   </para>
+      </section>
+      <section xreflabel="UNKNOWN"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialDeviceException.UNKNOWN">
+         <title>public static final int UNKNOWN = 0</title>
+         <para>
+The reason is unknown.
+   </para>
+      </section>
+      <section xreflabel="UNSUPPORTED_OPERATION"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialDeviceException.UNSUPPORTED_OPERATION">
+         <title>public static final int UNSUPPORTED_OPERATION = 2</title>
+         <para>
+The operation is unsupported.
+   </para>
+      </section>
+      <section xreflabel="SerialDeviceException(int,String)"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDeviceException.SerialDeviceException-int-String-">
+         <title>public  SerialDeviceException(int type, String message)</title>
+         <formalpara role="parameter">
+            <title>type</title>
+            <para>The type for this exception.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>message</title>
+            <para>The message.</para>
+         </formalpara>
+         <para role="description">
+Creates a SerialDeviceException with the specified type and message.
+   </para>
+      </section>
+      <section xreflabel="getType()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialDeviceException.getType--">
+         <title>public int getType()</title>
+         <para role="description">
+Returns the type for this exception.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The type of this exception.</para>
+         </formalpara>
+      </section>
+   </section>
+   <section xreflabel="SerialEvent"
+            role="class"
+            xml:id="org.osgi.service.serial.SerialEvent">
+      <title>public abstract SerialEvent</title>
+      <para>
+A serial device event. SerialEvent objects are delivered to
+ SerialEventListeners when an event occurs.
+ 
+ </para>
+      <para>
+ A type of code is used to identify the event. Additional event types may be
+ defined in the future.</para>
+      <formalpara role="parameter">
+         <title>Concurrency</title>
+         <para>Thread-safe </para>
+      </formalpara>
+      <section xreflabel="DATA_AVAILABLE"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialEvent.DATA_AVAILABLE">
+         <title>public static final int DATA_AVAILABLE = 1</title>
+         <para>
+Event type indicating data available.
+   </para>
+      </section>
+      <section xreflabel="getComPort()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialEvent.getComPort--">
+         <title>public abstract String getComPort()</title>
+         <para role="description">
+Returns the port name of this event.
+ 
+ </para>
+         <para>
+ This value must be equal to the value of
+ {@link SerialDevice#SERIAL_COMPORT} service property of the
+ {@link SerialDevice}.</para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The port name of this event.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getType()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialEvent.getType--">
+         <title>public abstract int getType()</title>
+         <para role="description">
+Returns the type of this event.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The type of this event.</para>
+         </formalpara>
+      </section>
+   </section>
+   <section xreflabel="SerialEventListener"
+            role="class"
+            xml:id="org.osgi.service.serial.SerialEventListener">
+      <title>public abstract SerialEventListener</title>
+      <para>
+Serial events are sent using the white board model, in which a bundle
+ interested in receiving the Serial events registers an object implementing
+ the SerialEventListener interface. A COM port name can be set to limit the
+ events for which a bundle is notified.
+   </para>
+      <formalpara role="parameter">
+         <title>Concurrency</title>
+         <para>Thread-safe </para>
+      </formalpara>
+      <section xreflabel="SERIAL_COMPORT"
+               role="field"
+               xml:id="org.osgi.service.serial.SerialEventListener.SERIAL_COMPORT">
+         <title>public static final String SERIAL_COMPORT = "serial.comport"</title>
+         <para>
+Key for a service property that is used to limit received events.
+   </para>
+      </section>
+      <section xreflabel="notifyEvent(SerialEvent)"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialEventListener.notifyEvent-SerialEvent-">
+         <title>public abstract void notifyEvent(SerialEvent event)</title>
+         <formalpara role="parameter">
+            <title>event</title>
+            <para>The SerialEvent object.</para>
+         </formalpara>
+         <para role="description">
+Callback method that is invoked for received an event.
+   </para>
+      </section>
+   </section>
+   <section xreflabel="SerialPortConfiguration"
+            role="class"
+            xml:id="org.osgi.service.serial.SerialPortConfiguration">
+      <title>public class SerialPortConfiguration</title>
+      <para>
+An object represents the Serial port configuration.
+   </para>
+      <formalpara role="parameter">
+         <title>Concurrency</title>
+         <para>Immutable </para>
+      </formalpara>
+      <section xreflabel="SerialPortConfiguration(int,int,int,int,int)"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialPortConfiguration.SerialPortConfiguration-int-int-int-int-int-">
+         <title>public  SerialPortConfiguration(int baudRate, int dataBits, int flowControl, int parity, int stopBits)</title>
+         <formalpara role="parameter">
+            <title>baudRate</title>
+            <para>Baud rate.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>dataBits</title>
+            <para>Data bits.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>flowControl</title>
+            <para>Flow control.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>parity</title>
+            <para>Parity.</para>
+         </formalpara>
+         <formalpara role="parameter">
+            <title>stopBits</title>
+            <para>Stop bits.</para>
+         </formalpara>
+         <para role="description">
+Creates an instance of the serial port configuration with the specified
+ Baud rate, Data bits, Flow control, Parity and Stop bits.
+   </para>
+      </section>
+      <section xreflabel="SerialPortConfiguration(int)"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialPortConfiguration.SerialPortConfiguration-int-">
+         <title>public  SerialPortConfiguration(int baudRate)</title>
+         <formalpara role="parameter">
+            <title>baudRate</title>
+            <para>Baud rate.</para>
+         </formalpara>
+         <para role="description">
+Creates an instance of the serial port configuration with the specified
+ Baud rate and the following configuration: Data bits = 8, Flow control =
+ none, Parity = none, Stop bits = 1.
+   </para>
+      </section>
+      <section xreflabel="SerialPortConfiguration()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialPortConfiguration.SerialPortConfiguration--">
+         <title>public  SerialPortConfiguration()</title>
+         <para role="description">
+Creates an instance of the serial port configuration with the following
+ configuration: Baud rate = auto, Data bits = 8, Flow control = none,
+ Parity = none, Stop bits = 1.
+   </para>
+      </section>
+      <section xreflabel="getBaudRate()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialPortConfiguration.getBaudRate--">
+         <title>public int getBaudRate()</title>
+         <para role="description">
+Returns the baud rate.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The baud rate.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getDataBits()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialPortConfiguration.getDataBits--">
+         <title>public int getDataBits()</title>
+         <para role="description">
+Returns the data bits.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The data bits.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getFlowControl()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialPortConfiguration.getFlowControl--">
+         <title>public int getFlowControl()</title>
+         <para role="description">
+Returns the flow control.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The flow control.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getParity()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialPortConfiguration.getParity--">
+         <title>public int getParity()</title>
+         <para role="description">
+Returns the parity.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The parity.</para>
+         </formalpara>
+      </section>
+      <section xreflabel="getStopBits()"
+               role="method"
+               xml:id="org.osgi.service.serial.SerialPortConfiguration.getStopBits--">
+         <title>public int getStopBits()</title>
+         <para role="description">
+Returns the stop bits.
+   </para>
+         <formalpara role="parameter">
+            <title>Returns</title>
+            <para>The stop bits.</para>
+         </formalpara>
+      </section>
+   </section>
+</section>
