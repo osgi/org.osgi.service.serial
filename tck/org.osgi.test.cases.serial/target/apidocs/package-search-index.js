@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.osgi.test.cases.serial.junit"},{"l":"org.osgi.test.cases.serial.util"}];updateSearchResults();

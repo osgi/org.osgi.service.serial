@@ -1,0 +1,7 @@
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.impl.service.serial/src/main/java/org/osgi/impl/service/serial/Activator.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.impl.service.serial/src/main/java/org/osgi/impl/service/serial/Commands.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.impl.service.serial/src/main/java/org/osgi/impl/service/serial/SerialDeviceImpl.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.impl.service.serial/src/main/java/org/osgi/impl/service/serial/SerialDeviceManager.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.impl.service.serial/src/main/java/org/osgi/impl/service/serial/SerialEventImpl.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.impl.service.serial/src/main/java/org/osgi/impl/service/serial/SerialEventManager.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.impl.service.serial/src/main/java/org/osgi/impl/service/serial/TestStepImpl.java

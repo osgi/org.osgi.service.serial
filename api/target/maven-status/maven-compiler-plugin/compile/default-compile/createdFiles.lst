@@ -1,0 +1,7 @@
+org/osgi/service/serial/package-info.class
+org/osgi/service/serial/SerialConstants.class
+org/osgi/service/serial/SerialPortConfiguration.class
+org/osgi/service/serial/SerialEvent.class
+org/osgi/service/serial/SerialDevice.class
+org/osgi/service/serial/SerialEventListener.class
+org/osgi/service/serial/SerialDeviceException.class

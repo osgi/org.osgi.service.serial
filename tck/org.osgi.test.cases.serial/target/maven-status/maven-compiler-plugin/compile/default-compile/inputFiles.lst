@@ -1,0 +1,5 @@
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.test.cases.serial/src/main/java/org/osgi/test/cases/serial/junit/SerialDeviceTestCase.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.test.cases.serial/src/main/java/org/osgi/test/cases/serial/junit/SignatureTestCase.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.test.cases.serial/src/main/java/org/osgi/test/cases/serial/util/SerialTestProxy.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.test.cases.serial/src/main/java/org/osgi/test/cases/serial/util/TestSerialEventListener.java
+/home/stbischof/git/OSGI_MIGRATE/osgi_target/org.osgi.service.serial/tck/org.osgi.test.cases.serial/src/main/java/org/osgi/test/cases/serial/util/TestServiceListener.java
