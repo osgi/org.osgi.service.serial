@@ -19,7 +19,7 @@
 package org.osgi.test.cases.serial.util;
 
 import java.util.StringTokenizer;
-import org.osgi.test.support.step.TestStepProxy;
+import org.osgi.tck.step.TestStepProxy;
 
 public class SerialTestProxy {
 	private static final String	SEPARATOR_COMMA	= ",";

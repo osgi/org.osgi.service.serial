@@ -18,10 +18,17 @@
 
 package org.osgi.test.cases.serial.junit;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+
 import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceReference;
@@ -32,17 +39,22 @@ import org.osgi.service.serial.SerialPortConfiguration;
 import org.osgi.test.cases.serial.util.SerialTestProxy;
 import org.osgi.test.cases.serial.util.TestSerialEventListener;
 import org.osgi.test.cases.serial.util.TestServiceListener;
-import org.osgi.test.support.compatibility.DefaultTestBundleControl;
-import org.osgi.test.support.step.TestStepProxy;
+import org.osgi.test.common.annotation.InjectBundleContext;
+import org.osgi.tck.step.TestStepProxy;
 
-public class SerialDeviceTestCase extends DefaultTestBundleControl {
+public class SerialDeviceTestCase {
+
+	@InjectBundleContext
+	BundleContext		context;
 	private SerialTestProxy	testProxy;
 
-	protected void setUp() throws Exception {
-		this.testProxy = new SerialTestProxy(new TestStepProxy(getContext()));
+	@BeforeEach
+	public void setUp() throws Exception {
+		this.testProxy = new SerialTestProxy(new TestStepProxy(context));
 	}
 
-	protected void tearDown() throws Exception {
+	@AfterEach
+	public void tearDown() throws Exception {
 		this.testProxy.close();
 	}
 
@@ -50,6 +62,7 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 	 * Tests service register/unregister. Please set in advance the information
 	 * of your device to the system property (bnd.bnd file).
 	 */
+	@Test
 	public void testSerialDevice01() {
 		try {
 			String filter = "(" + Constants.OBJECTCLASS + "=" + SerialDevice.class.getName() + ")";
@@ -57,13 +70,13 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 					ServiceEvent.REGISTERED);
 			TestServiceListener<SerialDevice> unregListener = new TestServiceListener<>(
 					ServiceEvent.UNREGISTERING);
-			getContext().addServiceListener(regListener, filter);
-			getContext().addServiceListener(unregListener, filter);
+			context.addServiceListener(regListener, filter);
+			context.addServiceListener(unregListener, filter);
 
 			String message = "[TEST-SD01] Connect a device.";
 			String[] ids = testProxy.executeTestStep("add", message, new String[] {});
 
-			assertEquals("Only one registered service event is expected.", 1, regListener.size());
+			assertThat(regListener.size()).as("Only one registered service event is expected.").isOne();
 
 			ServiceReference<SerialDevice> ref = regListener.get(0);
 			Long serviceId1 = (Long) ref.getProperty(Constants.SERVICE_ID);
@@ -71,12 +84,12 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 			message = "Disconnect the device.";
 			testProxy.executeTestStep("remove", message, new String[] {ids[0]});
 
-			assertEquals("Only one unregistering service event is expected.", 1, unregListener.size());
+			assertThat(unregListener.size()).as("Only one unregistering service event is expected.").isOne();
 			ref = unregListener.get(0);
-			assertEquals("The unregisterd service is not correct.", serviceId1, ref.getProperty(Constants.SERVICE_ID));
+			assertThat(ref.getProperty(Constants.SERVICE_ID)).as("The unregisterd service is not correct.").isEqualTo(serviceId1);
 
-			getContext().removeServiceListener(regListener);
-			getContext().removeServiceListener(unregListener);
+			context.removeServiceListener(regListener);
+			context.removeServiceListener(unregListener);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage(), e);
@@ -86,6 +99,7 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 	/**
 	 * Tests services register/unregister.
 	 */
+	@Test
 	public void testSerialDevice02() {
 		try {
 			String filter = "(" + Constants.OBJECTCLASS + "=" + SerialDevice.class.getName() + ")";
@@ -93,13 +107,13 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 					ServiceEvent.REGISTERED);
 			TestServiceListener<SerialDevice> unregListener = new TestServiceListener<>(
 					ServiceEvent.UNREGISTERING);
-			getContext().addServiceListener(regListener, filter);
-			getContext().addServiceListener(unregListener, filter);
+			context.addServiceListener(regListener, filter);
+			context.addServiceListener(unregListener, filter);
 
 			String message = "[TEST-SD02] Connect the first device.";
 			String[] ids1 = testProxy.executeTestStep("add", message, new String[] {});
 
-			assertEquals("Only one registered service event is expected.", 1, regListener.size());
+			assertThat(regListener.size()).as("Only one registered service event is expected.").isOne();
 
 			ServiceReference<SerialDevice> ref = regListener.get(0);
 			Long serviceId1 = (Long) ref.getProperty(Constants.SERVICE_ID);
@@ -107,7 +121,7 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 			message = "Connect the second device.";
 			String[] ids2 = testProxy.executeTestStep("add", message, new String[] {});
 
-			assertEquals("Only two registered service events are expected.", 2, regListener.size());
+			assertThat(regListener.size()).as("Only two registered service events are expected.").isEqualTo(2);
 
 			ref = regListener.get(1);
 			Long serviceId2 = (Long) ref.getProperty(Constants.SERVICE_ID);
@@ -115,21 +129,21 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 			message = "Disconnect the first device.";
 			testProxy.executeTestStep("remove", message, new String[] {ids1[0]});
 
-			assertEquals("Only one unregistering service event is expected.", 1, unregListener.size());
+			assertThat(unregListener.size()).as("Only one unregistering service event is expected.").isOne();
 
 			ref = unregListener.get(0);
-			assertEquals("The unregisterd service is not correct.", serviceId1, ref.getProperty(Constants.SERVICE_ID));
+			assertThat(ref.getProperty(Constants.SERVICE_ID)).as("The unregisterd service is not correct.").isEqualTo(serviceId1);
 
 			message = "Disconnect the second device.";
 			testProxy.executeTestStep("remove", message, new String[] {ids2[0]});
 
-			assertEquals("Only two unregistering service events are expected.", 2, unregListener.size());
+			assertThat(unregListener.size()).as("Only two unregistering service events are expected.").isEqualTo(2);
 
 			ref = unregListener.get(1);
-			assertEquals("The unregisterd service is not correct.", serviceId2, ref.getProperty(Constants.SERVICE_ID));
+			assertThat(ref.getProperty(Constants.SERVICE_ID)).as("The unregisterd service is not correct.").isEqualTo(serviceId2);
 
-			getContext().removeServiceListener(regListener);
-			getContext().removeServiceListener(unregListener);
+			context.removeServiceListener(regListener);
+			context.removeServiceListener(unregListener);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage(), e);
@@ -139,17 +153,18 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 	/**
 	 * Tests SerialDevice service properties.
 	 */
+	@Test
 	public void testSerialDevice03() {
 		String[] ids = null;
 		try {
 			TestServiceListener<SerialDevice> listener = new TestServiceListener<>(
 					ServiceEvent.REGISTERED);
-			getContext().addServiceListener(listener, "(" + Constants.OBJECTCLASS + "=" + SerialDevice.class.getName() + ")");
+			context.addServiceListener(listener, "(" + Constants.OBJECTCLASS + "=" + SerialDevice.class.getName() + ")");
 
 			String message = "[TEST-SD03] Connect a device.";
 			ids = testProxy.executeTestStep("add", message, new String[] {});
 
-			getContext().removeServiceListener(listener);
+			context.removeServiceListener(listener);
 
 			ServiceReference<SerialDevice> ref = listener.get(0);
 			String[] category = (String[]) ref.getProperty(org.osgi.service.device.Constants.DEVICE_CATEGORY);
@@ -160,10 +175,10 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 					break;
 				}
 			}
-			assertTrue("The following service property is not correct: " + org.osgi.service.device.Constants.DEVICE_CATEGORY, categoryFlag);
+			assertThat(categoryFlag).as("The following service property is not correct: " + org.osgi.service.device.Constants.DEVICE_CATEGORY).isTrue();
 
 			Object comport = ref.getProperty(SerialDevice.SERIAL_COMPORT);
-			assertTrue("The following service property is not correct: " + SerialDevice.SERIAL_COMPORT, comport instanceof String);
+			assertThat(comport instanceof String).as("The following service property is not correct: " + SerialDevice.SERIAL_COMPORT).isTrue();
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage(), e);
@@ -177,18 +192,19 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 	/**
 	 * Tests SerialDevice configuration.
 	 */
+	@Test
 	public void testSerialDevice04() {
 		String[] ids = null;
 		try {
 			TestServiceListener<SerialDevice> listener = new TestServiceListener<>(
 					ServiceEvent.REGISTERED);
-			getContext().addServiceListener(listener, "(" + Constants.OBJECTCLASS + "=" + SerialDevice.class.getName() + ")");
+			context.addServiceListener(listener, "(" + Constants.OBJECTCLASS + "=" + SerialDevice.class.getName() + ")");
 
 			String message = "[TEST-SD04] Connect a device.";
 			ids = testProxy.executeTestStep("add", message, new String[] {});
 
-			getContext().removeServiceListener(listener);
-			SerialDevice serialDevice = getContext().getService(listener.get(0));
+			context.removeServiceListener(listener);
+			SerialDevice serialDevice = context.getService(listener.get(0));
 
 			SerialPortConfiguration config = serialDevice.getConfiguration();
 			config.getBaudRate();
@@ -210,6 +226,7 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 	/**
 	 * Tests Serial event.
 	 */
+	@Test
 	public void testSerialDevice05() {
 		String[] ids1 = null;
 		String[] ids2 = null;
@@ -221,9 +238,9 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 			ids2 = testProxy.executeTestStep("add", message, new String[] {});
 
 			TestSerialEventListener serialListenerAll = new TestSerialEventListener();
-			getContext().registerService(SerialEventListener.class.getName(), serialListenerAll, null);
+			context.registerService(SerialEventListener.class.getName(), serialListenerAll, null);
 
-			Collection<ServiceReference<SerialDevice>> refs1 = getContext()
+			Collection<ServiceReference<SerialDevice>> refs1 = context
 					.getServiceReferences(SerialDevice.class,
 							"(service.id=" + ids1[0] + ")");
 			String comport1 = (String) refs1.iterator()
@@ -232,9 +249,9 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 			TestSerialEventListener serialListener1 = new TestSerialEventListener();
 			Dictionary<String,Object> props1 = new Hashtable<>();
 			props1.put(SerialEventListener.SERIAL_COMPORT, comport1);
-			getContext().registerService(SerialEventListener.class.getName(), serialListener1, props1);
+			context.registerService(SerialEventListener.class.getName(), serialListener1, props1);
 
-			Collection<ServiceReference<SerialDevice>> refs2 = getContext()
+			Collection<ServiceReference<SerialDevice>> refs2 = context
 					.getServiceReferences(SerialDevice.class,
 							"(service.id=" + ids2[0] + ")");
 			String comport2 = (String) refs2.iterator()
@@ -243,20 +260,20 @@ public class SerialDeviceTestCase extends DefaultTestBundleControl {
 			TestSerialEventListener serialListener2 = new TestSerialEventListener();
 			Dictionary<String,Object> props2 = new Hashtable<>();
 			props2.put(SerialEventListener.SERIAL_COMPORT, comport2);
-			getContext().registerService(SerialEventListener.class.getName(), serialListener2, props2);
+			context.registerService(SerialEventListener.class.getName(), serialListener2, props2);
 
 			message = "Send data from the first device.";
 			testProxy.executeTestStep("event", message, new String[] {ids1[0]});
 
-			assertTrue("It is expected that the SerialListener does not have serial.comport receive all events.", serialListenerAll.isReceived());
-			assertEquals("The ComPort name of the event is not correct.", comport1, serialListenerAll.getReceivedComPort());
-			assertEquals("The type of the event is not correct.", SerialEvent.DATA_AVAILABLE, serialListenerAll.getReceivedType());
+			assertThat(serialListenerAll.isReceived()).as("It is expected that the SerialListener does not have serial.comport receive all events.").isTrue();
+			assertThat(serialListenerAll.getReceivedComPort()).as("The ComPort name of the event is not correct.").isEqualTo(comport1);
+			assertThat(serialListenerAll.getReceivedType()).as("The type of the event is not correct.").isEqualTo(SerialEvent.DATA_AVAILABLE);
 
-			assertTrue("It is expected that the SerialListener has serial.comport receive events from the port.", serialListener1.isReceived());
-			assertEquals("The ComPort name of the event is not correct.", comport1, serialListener1.getReceivedComPort());
-			assertEquals("The type of the event is not correct.", SerialEvent.DATA_AVAILABLE, serialListener1.getReceivedType());
+			assertThat(serialListener1.isReceived()).as("It is expected that the SerialListener has serial.comport receive events from the port.").isTrue();
+			assertThat(serialListener1.getReceivedComPort()).as("The ComPort name of the event is not correct.").isEqualTo(comport1);
+			assertThat(serialListener1.getReceivedType()).as("The type of the event is not correct.").isEqualTo(SerialEvent.DATA_AVAILABLE);
 
-			assertFalse("It is expected that the SerialListener has serial.comport receive events from only the port.", serialListener2.isReceived());
+			assertThat(serialListener2.isReceived()).as("It is expected that the SerialListener has serial.comport receive events from only the port.").isFalse();
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage(), e);
